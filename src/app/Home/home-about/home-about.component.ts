@@ -31,12 +31,32 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       </div>
     </div>
   `,
-  styles: [``],
+  styles: [
+    `
+      .about-us-content p {
+        font-size: 16px;
+        line-height: 1.5;
+        margin-bottom: 15px;
+      }
+
+      .about-us-content h2 {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .about-us-section {
+        padding: 20px;
+        background-color: #f0f0f0;
+      }
+
+      .about-us-content {
+        max-width: 980px;
+        margin: 0 auto;
+        color: #333;
+      }
+    `,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
-export class HomeAboutComponent {
-  constructor() {
-    console.log('jell');
-  }
-}
+export class HomeAboutComponent {}
