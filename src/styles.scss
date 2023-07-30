@@ -2,19 +2,18 @@
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 // styles.scss
 
-*{
-    margin: 0;
-    padding: 0;
-    font-family: Roboto, 'Helvetica Neue', sans-serif;
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
-body{
-    min-height: 100vh;
-    background-color: #f2f2f2;
-    
+body {
+  height: 100vh;
+  background-color: #f2f2f2;
 }
 
-.hero-section{
+.hero-section {
   background-image: url('assets/bookstore.jpg');
   height: 60vh;
   background-size: cover;
@@ -25,10 +24,7 @@ body{
   text-align: center;
 }
 
-.mx-2
-{
+.mx-2 {
   margin-left: 0.8rem;
   margin-right: 0.8rem;
 }
-
-

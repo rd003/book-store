@@ -8,10 +8,26 @@ import { HeaderComponent } from './header/header.component';
   imports: [RouterModule, HeaderComponent, FooterComponent],
   selector: 'book-store-root',
   template: `
-    <book-store-header />
-    <router-outlet />
-    <book-store-footer />
+    <div class="container">
+      <book-store-header />
+      <div class="content-holder">
+        <router-outlet />
+      </div>
+      <book-store-footer />
+    </div>
   `,
-  styles: [],
+  styles: [
+    `
+      .container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      .content-holder {
+        flex-grow: 1;
+      }
+    `,
+  ],
 })
 export class AppComponent {}

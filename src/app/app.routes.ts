@@ -1,5 +1,4 @@
 import { Route } from '@angular/router';
-import { BookComponent } from './Book/book.component';
 import { HomeComponent } from './Home/home.component';
 import { NotFoundComponent } from './not-found.component';
 
@@ -15,7 +14,8 @@ export const appRoutes: Route[] = [
   },
   {
     path: 'books',
-    component: BookComponent,
+    loadComponent: () =>
+      import('./Book/book.component').then((m) => m.BookComponent),
   },
   {
     path: '**',

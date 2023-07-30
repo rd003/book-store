@@ -1,14 +1,30 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { BookListComponent } from './book-list.component';
+import { BookService } from './book.service';
 
 @Component({
   selector: 'book-store-book',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, BookListComponent],
   template: `
-    <p>book works!</p>
+    <div class="book-container">
+      <h2>Books</h2>
+      <ng-container *ngIf="books$ | async as books">
+        <book-store-book-list [books]="books" />
+      </ng-container>
+    </div>
   `,
-  styles: [],
+  styles: [
+    `
+      .book-container {
+        padding: 20px 30px;
+      }
+    `,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BookComponent {}
+export class BookComponent {
+  private readonly bookService = inject(BookService);
+  books$ = this.bookService.books$;
+}
