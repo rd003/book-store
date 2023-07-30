@@ -12,6 +12,7 @@ import { Book, RupeeSymbolPipe } from '@book-store/shared-models';
         <img class="book-image" [src]="book.ImageLink" alt="book image" />
         <h2 class="title">{{ book.Title }}</h2>
         <p>Author: {{ book.Author }}</p>
+        <p>Lang: {{ book.Language }}</p>
         <p>Price: {{ book.Price | toRupee }}</p>
       </div>
     </div>

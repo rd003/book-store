@@ -1,21 +1,43 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { debounceTime, tap } from 'rxjs';
+import { BookService } from './book.service';
 
 @Component({
   selector: 'book-store-book-filter',
   standalone: true,
-  imports: [CommonModule, MatFormFieldModule, MatInputModule],
+  imports: [
+    CommonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatIconModule,
+    MatSelectModule,
+  ],
   template: `
     <div class="filter-container">
-      <div class="search-filter">
+      <div class=".search-filter">
         <mat-form-field>
           <mat-label>Search by title/author</mat-label>
-          <input matInput />
+          <input matInput [formControl]="searchTerm" />
+          <mat-icon matPrefix>search</mat-icon>
         </mat-form-field>
       </div>
-      <div class="language-filter"></div>
+      <div class="language-filter">
+        <!-- <mat-form-field>
+          <mat-label>Language</mat-label>
+          <mat-select>
+            <mat-option value="1">Option 1</mat-option>
+            <mat-option value="2">Option 2</mat-option>
+          </mat-select>
+        </mat-form-field> -->
+      </div>
     </div>
   `,
   styles: [
@@ -25,9 +47,29 @@ import { MatInputModule } from '@angular/material/input';
         display: flex;
       }
       .search-filter {
+        width: 350px;
+        border: 1px solid;
+      }
+      mat-form-field {
+        width: 100%;
       }
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BookFilterComponent {}
+export class BookFilterComponent {
+  searchTerm = new FormControl('');
+  private readonly bookService = inject(BookService);
+
+  constructor() {
+    this.searchTerm.valueChanges
+      .pipe(
+        tap((value) => {
+          this.bookService.setSearchTerm(value ?? '');
+        }),
+        debounceTime(200),
+        takeUntilDestroyed()
+      )
+      .subscribe();
+  }
+}
