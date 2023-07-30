@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { debounceTime, tap } from 'rxjs';
+import { getBookLanguages } from '../utils/book.util';
 import { BookService } from './book.service';
 
 @Component({
@@ -33,9 +34,13 @@ import { BookService } from './book.service';
       <div class="language-filter">
         <mat-form-field appearance="outline">
           <mat-label>Language</mat-label>
-          <mat-select [formControl]="language">
-            <mat-option value="1">Option 1</mat-option>
-            <mat-option value="2">Option 2</mat-option>
+          <mat-select [formControl]="language" multiple="">
+            <mat-option
+              *ngFor="let lang of languages; trackBy: trackByLang"
+              [value]="lang"
+            >
+              {{ lang }}
+            </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -48,9 +53,11 @@ import { BookService } from './book.service';
         display: flex;
         gap: 8px;
       }
-      .search-filter {
-        width: 350px;
+      .search-filter,
+      .language-filter {
+        width: 300px;
       }
+
       mat-form-field {
         width: 100%;
       }
@@ -62,6 +69,11 @@ export class BookFilterComponent {
   searchTerm = new FormControl('');
   language = new FormControl('');
   private readonly bookService = inject(BookService);
+  languages = getBookLanguages();
+
+  trackByLang(index: number, lang: string) {
+    return lang;
+  }
 
   constructor() {
     this.searchTerm.valueChanges
