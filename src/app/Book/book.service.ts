@@ -5,7 +5,7 @@ import { BOOKS_DATA } from '../book.data';
 
 export type SearchFilter = {
   searchTerm?: string;
-  language?: string;
+  languages?: string[];
 };
 
 @Injectable({ providedIn: 'root' })
@@ -18,13 +18,22 @@ export class BookService {
   filteredBooks$ = combineLatest([this.books$, this.searchFilter]).pipe(
     map(([books, searchFilter]) => {
       return books.filter((b) => {
-        const searchTerm = searchFilter.searchTerm;
-        const language = searchFilter.language;
-        return (
+        const searchTerm: string | undefined = searchFilter.searchTerm;
+        const languages: string[] | undefined = searchFilter.languages;
+
+        // check if title or author matches the search data
+        const titleMatch =
           !searchTerm ||
-          b.Title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          b.Author.toLowerCase().includes(searchTerm.toLowerCase())
-        );
+          b.Title.toLowerCase().includes(searchTerm.toLowerCase());
+        const authorMatch =
+          !searchTerm ||
+          b.Author.toLowerCase().includes(searchTerm.toLowerCase());
+        if (!languages || languages.length == 0)
+          return titleMatch || authorMatch;
+
+        // check if book's language matches to any of the selected languages.
+        const languageMatch = !languages || languages.includes(b.Language);
+        return (titleMatch || authorMatch) && languageMatch;
       });
     })
   );
@@ -34,9 +43,9 @@ export class BookService {
     this.searchFilter.next({ ...currentFilter, searchTerm });
   }
 
-  setLanguageFilter(language: string) {
+  setLanguageFilter(languages?: string[]) {
     var currentFilter = this.searchFilter.value;
-    this.searchFilter.next({ ...currentFilter, language });
+    this.searchFilter.next({ ...currentFilter, languages });
   }
 
   constructor() {

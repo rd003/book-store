@@ -66,8 +66,8 @@ import { BookService } from './book.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BookFilterComponent {
-  searchTerm = new FormControl('');
-  language = new FormControl('');
+  searchTerm = new FormControl<string>('');
+  language = new FormControl<string[]>([]);
   private readonly bookService = inject(BookService);
   languages = getBookLanguages();
 
@@ -82,6 +82,17 @@ export class BookFilterComponent {
           this.bookService.setSearchTerm(value ?? '');
         }),
         debounceTime(200),
+        takeUntilDestroyed()
+      )
+      .subscribe();
+
+    this.language.valueChanges
+      .pipe(
+        tap((langs) => {
+          if (langs) {
+            this.bookService.setLanguageFilter(langs);
+          }
+        }),
         takeUntilDestroyed()
       )
       .subscribe();
