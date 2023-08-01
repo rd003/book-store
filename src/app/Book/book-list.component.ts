@@ -11,9 +11,18 @@ import { Book, RupeeSymbolPipe } from '@book-store/shared-models';
       <div *ngFor="let book of books; trackBy: trackById" class="book-card">
         <img class="book-image" [src]="book.ImageLink" alt="book image" />
         <h2 class="title">{{ book.Title }}</h2>
-        <p>Author: {{ book.Author }}</p>
-        <p>Lang: {{ book.Language }}</p>
-        <p>Price: {{ book.Price | toRupee }}</p>
+        <p>
+          <b>Author :</b>
+          {{ book.Author }}
+        </p>
+        <p>
+          <b>Language:</b>
+          {{ book.Language }}
+        </p>
+        <p>
+          <b>Price</b>
+          {{ book.Price | toRupee }}
+        </p>
       </div>
     </div>
   `,

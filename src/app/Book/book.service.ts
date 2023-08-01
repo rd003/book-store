@@ -1,11 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { Book } from '@book-store/shared-models';
-import { BehaviorSubject, Observable, combineLatest, map } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, map, tap } from 'rxjs';
 import { BOOKS_DATA } from '../book.data';
 
-export type SearchFilter = {
+export interface SearchFilter {
   searchTerm?: string;
   languages?: string[];
+}
+
+export type QueryParam = {
+  searchTerm?: string;
+  languages?: string;
 };
 
 @Injectable({ providedIn: 'root' })
@@ -13,9 +19,28 @@ export class BookService {
   private readonly books = new BehaviorSubject<Book[]>([]);
   private readonly searchFilter = new BehaviorSubject<SearchFilter>({});
   private readonly books$: Observable<Book[]> = this.books.asObservable();
-  searchFilter$ = this.searchFilter.asObservable();
+  private readonly _router = inject(Router);
+  // private readonly _platformLocation = inject(PlatformLocation);
 
-  filteredBooks$ = combineLatest([this.books$, this.searchFilter]).pipe(
+  searchFilter$ = this.searchFilter.asObservable().pipe(
+    tap((sFilter) => {
+      /* 
+       whenever user enter filters, they will be added to url.
+       e.g. '/books?searchTerm=tale&languages=english,spanis 
+       */
+      const queryParams: QueryParam = {};
+      if (sFilter.searchTerm) {
+        queryParams.searchTerm = sFilter.searchTerm;
+      }
+      if (sFilter.languages && sFilter.languages.length > 0) {
+        const selectedLanguages = sFilter.languages.join(',');
+        queryParams.languages = selectedLanguages;
+      }
+      this._router.navigate([], { queryParams, replaceUrl: true });
+    })
+  );
+
+  filteredBooks$ = combineLatest([this.books$, this.searchFilter$]).pipe(
     map(([books, searchFilter]) => {
       return books.filter((b) => {
         const searchTerm: string | undefined = searchFilter.searchTerm;
