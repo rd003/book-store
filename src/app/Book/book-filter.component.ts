@@ -70,6 +70,7 @@ export class BookFilterComponent {
   language = new FormControl<string[]>([]);
   private readonly bookService = inject(BookService);
   languages = getBookLanguages();
+  filters$ = this.bookService.searchFilter$;
 
   trackByLang(index: number, lang: string) {
     return lang;
@@ -91,6 +92,20 @@ export class BookFilterComponent {
         tap((langs) => {
           if (langs) {
             this.bookService.setLanguageFilter(langs);
+          }
+        }),
+        takeUntilDestroyed()
+      )
+      .subscribe();
+
+    this.filters$
+      .pipe(
+        tap((filter) => {
+          if (filter.searchTerm) {
+            this.searchTerm.setValue(filter.searchTerm);
+          }
+          if (filter.languages) {
+            this.language.setValue(filter.languages);
           }
         }),
         takeUntilDestroyed()
