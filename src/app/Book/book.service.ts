@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Book } from '@book-store/shared-models';
 import { BehaviorSubject, Observable, combineLatest, map, tap } from 'rxjs';
 import { BOOKS_DATA } from '../book.data';
@@ -20,6 +20,7 @@ export class BookService {
   private readonly searchFilter = new BehaviorSubject<SearchFilter>({});
   private readonly books$: Observable<Book[]> = this.books.asObservable();
   private readonly _router = inject(Router);
+  private readonly _route = inject(ActivatedRoute);
   // private readonly _platformLocation = inject(PlatformLocation);
 
   searchFilter$ = this.searchFilter.asObservable().pipe(
@@ -75,5 +76,21 @@ export class BookService {
 
   constructor() {
     this.books.next(BOOKS_DATA);
+
+    this._route.queryParamMap
+      .pipe(
+        tap((queryParamMap) => {
+          const searchTerm = queryParamMap.get('searchTerm') || '';
+          const languages = queryParamMap.get('languages') || '';
+          if (searchTerm) {
+            this.setSearchTerm(searchTerm);
+          }
+          if (languages && languages.length > 0) {
+            const langArray = languages.split(',');
+            this.setLanguageFilter(langArray);
+          }
+        })
+      )
+      .subscribe();
   }
 }
