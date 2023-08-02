@@ -82,7 +82,7 @@ export class BookFilterComponent {
         tap((value) => {
           this.bookService.setSearchTerm(value ?? '');
         }),
-        debounceTime(200),
+        debounceTime(500),
         takeUntilDestroyed()
       )
       .subscribe();
@@ -102,10 +102,10 @@ export class BookFilterComponent {
       .pipe(
         tap((filter) => {
           if (filter.searchTerm) {
-            this.searchTerm.setValue(filter.searchTerm);
+            this.searchTerm.setValue(filter.searchTerm, { emitEvent: false });
           }
           if (filter.languages) {
-            this.language.setValue(filter.languages);
+            this.language.setValue(filter.languages, { emitEvent: false });
           }
         }),
         takeUntilDestroyed()

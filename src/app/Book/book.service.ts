@@ -21,7 +21,6 @@ export class BookService {
   private readonly books$: Observable<Book[]> = this.books.asObservable();
   private readonly _router = inject(Router);
   private readonly _route = inject(ActivatedRoute);
-  // private readonly _platformLocation = inject(PlatformLocation);
 
   searchFilter$ = this.searchFilter.asObservable().pipe(
     tap((sFilter) => {
