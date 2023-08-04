@@ -11,4 +11,16 @@ and modified it according to my need. Feel free to visit this repo and consider 
 
 ## Start the app
 
-`npm run start`
+```
+   git clone https://github.com/rd003/book-store.git
+   path/to/book-store> npm i
+   npm run start
+```
+
+## Testing
+
+`npm run test`
+
+## Build
+
+`npm run build`
