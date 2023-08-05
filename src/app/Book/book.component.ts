@@ -10,7 +10,7 @@ import { BookService } from './book.service';
   imports: [CommonModule, BookListComponent, BookFilterComponent],
   template: `
     <div class="book-container">
-      <h2>Books</h2>
+      <h2 class="title">Books</h2>
       <book-store-book-filter />
       <ng-container *ngIf="books$ | async as books">
         <book-store-book-list [books]="books" />
@@ -19,6 +19,11 @@ import { BookService } from './book.service';
   `,
   styles: [
     `
+      @media (max-width: 600px) {
+        .book-container {
+          text-align: center;
+        }
+      }
       .book-container {
         padding: 20px 30px;
       }
@@ -29,4 +34,5 @@ import { BookService } from './book.service';
 export class BookComponent {
   private readonly bookService = inject(BookService);
   books$ = this.bookService.filteredBooks$;
+  //filters$ = this.bookService.searchFilter$;
 }

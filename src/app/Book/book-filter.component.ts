@@ -48,6 +48,21 @@ import { BookService } from './book.service';
   `,
   styles: [
     `
+      @media (max-width: 600px) {
+        .filter-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 4px; /* Adjust the gap to your preference */
+          background: green;
+          width: 100%;
+        }
+
+        .search-filter,
+        .language-filter {
+          width: 100%; /* Set the width to take up the full width of the container on mobile */
+        }
+      }
       .filter-container {
         margin: 10px 0px;
         display: flex;

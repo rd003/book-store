@@ -1,58 +1,111 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterLink } from '@angular/router';
 import { Book, RupeeSymbolPipe } from '@book-store/shared-models';
 
 @Component({
   selector: 'book-store-book-list',
   standalone: true,
-  imports: [CommonModule, RupeeSymbolPipe],
+  imports: [
+    CommonModule,
+    RupeeSymbolPipe,
+    RouterLink,
+    MatButtonModule,
+    MatIconModule,
+  ],
   template: `
     <div class="book-list-container">
-      <div *ngFor="let book of books; trackBy: trackById" class="book-card">
-        <img class="book-image" [src]="book.ImageLink" alt="book image" />
-        <h2 class="title">{{ book.Title }}</h2>
-        <p>
-          <b>Author :</b>
-          {{ book.Author }}
-        </p>
-        <p>
-          <b>Language:</b>
-          {{ book.Language }}
-        </p>
-        <p>
-          <b>Price</b>
-          {{ book.Price | toRupee }}
-        </p>
+      <div
+        *ngFor="let book of books; trackBy: trackById"
+        class="book-card"
+        [routerLink]="'/books/' + book.Id"
+      >
+        <div class="book-card-content">
+          <div class="card-image">
+            <img class="book-image" [src]="book.ImageLink" alt="book image" />
+          </div>
+          <div class="card-details">
+            <h2 class="title">{{ book.Title }}</h2>
+            <p>{{ book.Author }}</p>
+            <p>{{ book.Language }}</p>
+            <p>{{ book.Price | toRupee }}</p>
+            <p>
+              <button mat-button>
+                <mat-icon>shopping_cart</mat-icon>
+                Add to cart
+              </button>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   `,
   styles: [
     `
       .book-list-container {
-        height: 100%;
         display: flex;
         flex-wrap: wrap;
-        justify-content: flex-start;
+        justify-content: start;
       }
 
       .book-card {
         border: 1px solid #ccc;
         border-radius: 5px;
         padding: 10px;
-        width: 159px;
+        width: 159px; /* You can adjust the card width as needed */
         margin: 10px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        text-align: center;
+        cursor: pointer;
+      }
+
+      .book-card-content {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .card-image {
+        flex: 0 0 150px; /* Set the width of the image container */
+        margin-right: 10px;
       }
 
       .book-image {
-        max-width: 159px;
+        width: 100%;
         height: auto;
+      }
+
+      .card-details {
+        flex: 1 1 150px; /* Set the width of the content container */
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        text-align: center;
       }
 
       .title {
         font-weight: bold;
         font-size: 18px;
+      }
+
+      /* Media Queries */
+
+      /* For screens with a width less than 600px */
+      @media (max-width: 600px) {
+        .book-card {
+          width: 90%; /* Adjust the width to your preference */
+        }
+
+        .card-image {
+          flex: 0 0 120px; /* Adjust the width of the image container for mobile */
+          margin-right: 0;
+        }
+
+        .card-details {
+          flex: 1 1 120px; /* Adjust the width of the content container for mobile */
+          text-align: left;
+          padding-left: 10px;
+        }
       }
     `,
   ],

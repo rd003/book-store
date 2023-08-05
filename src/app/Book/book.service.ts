@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Book } from '@book-store/shared-models';
-import { BehaviorSubject, Observable, combineLatest, map, tap } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, map, of, tap } from 'rxjs';
 import { BOOKS_DATA } from '../book.data';
 
 export interface SearchFilter {
@@ -73,6 +73,10 @@ export class BookService {
     this.searchFilter.next({ ...currentFilter, languages });
   }
 
+  bookById(id: string | null): Observable<Book> {
+    const book = BOOKS_DATA.filter((b) => b.Id == id)[0];
+    return of(book);
+  }
   constructor() {
     this.books.next(BOOKS_DATA);
 
