@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
 // styles.scss
 
 * {
@@ -13,18 +14,31 @@ body {
   background-color: #f2f2f2;
 }
 
-.hero-section {
-  background-image: url('assets/bookstore.jpg');
-  height: 60vh;
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
 .mx-2 {
   margin-left: 0.8rem;
   margin-right: 0.8rem;
+}
+.my-2 {
+  margin-top: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+.block {
+  display: block;
+}
+.btn {
+  padding: 5px 10px;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-right: 5px;
+}
+
+.full-button {
+  background-color: #542a97;
+  color: white;
+}
+
+.full-button:hover {
+  background-color: #6131ad;
+  color: white;
 }

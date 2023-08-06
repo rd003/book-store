@@ -83,13 +83,6 @@ import { RouterModule } from '@angular/router';
         }
       }
 
-      .full-button {
-        background-color: #542a97;
-      }
-
-      .full-button:hover {
-        background-color: #6131ad;
-      }
       .example-spacer {
         flex: 1 1 auto;
       }

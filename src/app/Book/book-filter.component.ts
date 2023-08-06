@@ -51,15 +51,32 @@ import { BookService } from './book.service';
       .filter-container {
         margin: 10px 0px;
         display: flex;
+
         gap: 8px;
-      }
-      .search-filter,
-      .language-filter {
-        width: 300px;
       }
 
       mat-form-field {
         width: 100%;
+      }
+
+      .search-filter,
+      .language-filter {
+        flex-basis: 30%;
+      }
+
+      @media (max-width: 600px) {
+        .filter-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 4px; /* Adjust the gap to your preference */
+          width: 100%;
+        }
+
+        .search-filter,
+        .language-filter {
+          width: 95%;
+        }
       }
     `,
   ],
