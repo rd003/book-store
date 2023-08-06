@@ -47,16 +47,6 @@ import { Book, RupeeSymbolPipe } from '@book-store/shared-models';
   `,
   styles: [
     `
-      .top-link {
-      }
-      .book-details {
-        display: flex;
-        gap: 20px;
-        height: 330px;
-        justify-content: center;
-        padding: 20px;
-      }
-
       .book-image {
         width: 220px;
         /* center the image within the container */
@@ -93,6 +83,44 @@ import { Book, RupeeSymbolPipe } from '@book-store/shared-models';
       .book-price {
         font-size: 20px;
         margin: 5px 0;
+      }
+      .book-details {
+        display: flex;
+        gap: 20px;
+        height: 330px;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      @media (max-width: 600px) {
+        .book-details {
+          height: 260px;
+        }
+
+        .book-image img {
+          /* Set a max width for the image to prevent it from overflowing */
+          max-width: 90%;
+          /* Set a max height to maintain the aspect ratio of the image */
+          max-height: 300px;
+        }
+        .book-details {
+          gap: 10px;
+        }
+        .book-title {
+          font-size: 22px;
+          font-weight: bold;
+          margin-bottom: 10px;
+        }
+
+        .book-author,
+        .book-country,
+        .book-language,
+        .book-pages,
+        .book-year,
+        .book-price {
+          font-size: 14px;
+          margin: 5px 0;
+        }
       }
     `,
   ],
