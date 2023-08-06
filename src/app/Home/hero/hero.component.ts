@@ -21,7 +21,7 @@ import { MatButtonModule } from '@angular/material/button';
   styles: [
     `
       .hero-section {
-        background-image: url('assets/bookstore.jpg');
+        background-image: url('/assets/bookstore.jpg');
         height: 60vh;
         background-size: cover;
         background-position: center;
