@@ -17,13 +17,9 @@ import { Book, RupeeSymbolPipe } from '@book-store/shared-models';
   ],
   template: `
     <div class="book-list-container">
-      <div
-        *ngFor="let book of books; trackBy: trackById"
-        class="book-card"
-        [routerLink]="'/books/' + book.Id"
-      >
+      <div *ngFor="let book of books; trackBy: trackById" class="book-card">
         <div class="book-card-content">
-          <div class="card-image">
+          <div class="card-image" [routerLink]="'/books/' + book.Id">
             <img class="book-image" [src]="book.ImageLink" alt="book image" />
           </div>
           <div class="card-details">
