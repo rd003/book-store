@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
@@ -28,7 +34,7 @@ import { Book, RupeeSymbolPipe } from '@book-store/shared-models';
             <p>{{ book.Language }}</p>
             <p>{{ book.Price | toRupee }}</p>
             <p>
-              <button mat-button>
+              <button mat-button (click)="bookSelect.emit(book.Id)">
                 <mat-icon>shopping_cart</mat-icon>
                 Add to cart
               </button>
@@ -109,6 +115,7 @@ import { Book, RupeeSymbolPipe } from '@book-store/shared-models';
 })
 export class BookListComponent {
   @Input() books!: Book[];
+  @Output() bookSelect = new EventEmitter<string>();
 
   trackById(index: number, book: Book) {
     return book.Id;

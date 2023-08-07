@@ -1,9 +1,11 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
+import { CartService } from '../cart/cart.service';
 
 @Component({
   selector: 'book-store-header',
@@ -13,6 +15,7 @@ import { RouterModule } from '@angular/router';
     MatIconModule,
     MatBadgeModule,
     RouterModule,
+    CommonModule,
   ],
   standalone: true,
   template: `
@@ -37,9 +40,9 @@ import { RouterModule } from '@angular/router';
         </button>
       </div>
       <span class="example-spacer"></span>
-      <button mat-icon-button class="mx-2" color="secondary">
+      <button mat-icon-button class="mx-2" color="secondary" routerLink="/cart">
         <mat-icon
-          matBadge="8"
+          [matBadge]="totalItems$ | async"
           matBadgePosition="above after"
           matBadgeColor="accent"
         >
@@ -93,4 +96,7 @@ import { RouterModule } from '@angular/router';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeaderComponent {}
+export class HeaderComponent {
+  private readonly cartServcie = inject(CartService);
+  totalItems$ = this.cartServcie.totalItems$;
+}

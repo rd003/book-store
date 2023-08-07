@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { CartService } from '../cart/cart.service';
 import { BookFilterComponent } from './book-filter.component';
 import { BookListComponent } from './book-list.component';
 import { BookService } from './book.service';
@@ -13,7 +14,10 @@ import { BookService } from './book.service';
       <h2 class="title">Books</h2>
       <book-store-book-filter />
       <ng-container *ngIf="books$ | async as books">
-        <book-store-book-list [books]="books" />
+        <book-store-book-list
+          [books]="books"
+          (bookSelect)="addToCart($event)"
+        />
       </ng-container>
     </div>
   `,
@@ -33,6 +37,12 @@ import { BookService } from './book.service';
 })
 export class BookComponent {
   private readonly bookService = inject(BookService);
+  private readonly cartService = inject(CartService);
+
   books$ = this.bookService.filteredBooks$;
+
+  addToCart(bookId: string) {
+    this.cartService.addItem({ bookId, quantity: 1 });
+  }
   //filters$ = this.bookService.searchFilter$;
 }
