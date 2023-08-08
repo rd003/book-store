@@ -36,11 +36,7 @@ import { Book, RupeeSymbolPipe } from '@book-store/shared-models';
           <p class="book-year">Year: {{ book.Year }}</p>
           <p class="book-price">Price: {{ book.Price | toRupee }}</p>
           <div class="my-2">
-            <button
-              mat-button
-              color="primary"
-              (click)="selectBook.emit(book.Id)"
-            >
+            <button mat-button color="primary" (click)="selectBook.emit(book)">
               <mat-icon>shopping_cart</mat-icon>
               Add to cart
             </button>
@@ -138,5 +134,5 @@ import { Book, RupeeSymbolPipe } from '@book-store/shared-models';
 })
 export class BookDetailDisplayComponent {
   @Input() book!: Book;
-  @Output() selectBook = new EventEmitter<string>();
+  @Output() selectBook = new EventEmitter<Book>();
 }

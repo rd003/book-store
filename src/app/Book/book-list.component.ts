@@ -34,7 +34,7 @@ import { Book, RupeeSymbolPipe } from '@book-store/shared-models';
             <p>{{ book.Language }}</p>
             <p>{{ book.Price | toRupee }}</p>
             <p>
-              <button mat-button (click)="bookSelect.emit(book.Id)">
+              <button mat-button (click)="bookSelect.emit(book)">
                 <mat-icon>shopping_cart</mat-icon>
                 Add to cart
               </button>
@@ -115,7 +115,7 @@ import { Book, RupeeSymbolPipe } from '@book-store/shared-models';
 })
 export class BookListComponent {
   @Input() books!: Book[];
-  @Output() bookSelect = new EventEmitter<string>();
+  @Output() bookSelect = new EventEmitter<Book>();
 
   trackById(index: number, book: Book) {
     return book.Id;

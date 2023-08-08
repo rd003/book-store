@@ -42,7 +42,7 @@ export class BookDetailComponent {
     switchMap((id) => this._bookService.bookById(id))
   );
 
-  addToCart(bookId: string) {
-    this._cartService.addItem({ bookId, quantity: 1 });
+  addToCart(book: Book) {
+    this._cartService.addItem({ book, quantity: 1 });
   }
 }

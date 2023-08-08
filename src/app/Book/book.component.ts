@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Book } from '@book-store/shared-models';
 import { CartService } from '../cart/cart.service';
 import { BookFilterComponent } from './book-filter.component';
 import { BookListComponent } from './book-list.component';
@@ -41,8 +42,8 @@ export class BookComponent {
 
   books$ = this.bookService.filteredBooks$;
 
-  addToCart(bookId: string) {
-    this.cartService.addItem({ bookId, quantity: 1 });
+  addToCart(book: Book) {
+    this.cartService.addItem({ book, quantity: 1 });
   }
   //filters$ = this.bookService.searchFilter$;
 }
