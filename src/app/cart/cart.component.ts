@@ -102,9 +102,13 @@ import { CartService } from './cart.service';
         font-size: 30px;
       }
 
+      mat-form-field {
+        font-size: 10px;
+      }
+
       @media (max-width: 600px) {
         .cart-section {
-          padding: 20px;
+          padding: 10px;
           display: flex;
           flex-direction: column;
           gap: 20px;
@@ -112,9 +116,11 @@ import { CartService } from './cart.service';
 
         .items {
           width: 100%;
+          gap: 5px;
         }
         .card-item {
           font-size: 13px;
+          max-width: 90px;
         }
         .summary {
           height: auto;

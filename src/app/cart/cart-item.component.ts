@@ -45,7 +45,7 @@ import { CartItem } from './cart';
       </mat-form-field>
     </div>
     <div class="card-item">
-      <button mat-button>
+      <button mat-icon-button>
         <mat-icon color="danger">delete</mat-icon>
       </button>
     </div>
