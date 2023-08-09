@@ -1,6 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Action, Book } from '@book-store/shared-models';
-import { Subject, map, scan, shareReplay } from 'rxjs';
+import {
+  Subject,
+  combineLatest,
+  distinctUntilChanged,
+  map,
+  scan,
+  shareReplay,
+} from 'rxjs';
 import { CartItem } from './cart';
 
 @Injectable({ providedIn: 'root' })
@@ -13,10 +20,27 @@ export class CartService {
       (items, itemAction) => this.modifyCart(items, itemAction),
       [] as CartItem[]
     ),
+    distinctUntilChanged(),
     shareReplay(1)
   );
 
   totalItems$ = this.cartItems$.pipe(map((items) => items.length));
+
+  subTotal$ = this.cartItems$.pipe(
+    map((a) => a.reduce((a, b) => a + b.quantity * b.book.Price, 0))
+  );
+
+  deliveryCharge$ = this.subTotal$.pipe(
+    map((a) => (a > 0 && a < 500 ? 50 : 0))
+  );
+
+  tax$ = this.subTotal$.pipe(map((a) => Math.round(a * 9.25) / 100));
+
+  total$ = combineLatest([
+    this.subTotal$,
+    this.deliveryCharge$,
+    this.tax$,
+  ]).pipe(map(([s, d, t]) => s + d + t));
 
   //cart actions
 
