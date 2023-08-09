@@ -23,7 +23,7 @@ import { CartItem } from './cart';
   standalone: true,
   template: `
     <div class="card-item">
-      <img src="/assets/images/hamlet.jpg" />
+      <img [src]="cartItem.book.ImageLink" />
     </div>
     <div class="card-item">{{ cartItem.book.Title }}</div>
     <div class="card-item">{{ cartItem.book.Author }}</div>
