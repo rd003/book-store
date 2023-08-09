@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
@@ -17,13 +23,9 @@ import { Book, RupeeSymbolPipe } from '@book-store/shared-models';
   ],
   template: `
     <div class="book-list-container">
-      <div
-        *ngFor="let book of books; trackBy: trackById"
-        class="book-card"
-        [routerLink]="'/books/' + book.Id"
-      >
+      <div *ngFor="let book of books; trackBy: trackById" class="book-card">
         <div class="book-card-content">
-          <div class="card-image">
+          <div class="card-image" [routerLink]="'/books/' + book.Id">
             <img class="book-image" [src]="book.ImageLink" alt="book image" />
           </div>
           <div class="card-details">
@@ -32,7 +34,7 @@ import { Book, RupeeSymbolPipe } from '@book-store/shared-models';
             <p>{{ book.Language }}</p>
             <p>{{ book.Price | toRupee }}</p>
             <p>
-              <button mat-button>
+              <button mat-button (click)="bookSelect.emit(book)">
                 <mat-icon>shopping_cart</mat-icon>
                 Add to cart
               </button>
@@ -113,6 +115,7 @@ import { Book, RupeeSymbolPipe } from '@book-store/shared-models';
 })
 export class BookListComponent {
   @Input() books!: Book[];
+  @Output() bookSelect = new EventEmitter<Book>();
 
   trackById(index: number, book: Book) {
     return book.Id;

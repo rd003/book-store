@@ -23,6 +23,11 @@ export const appRoutes: Route[] = [
       import('./Book/book-detail.component').then((m) => m.BookDetailComponent),
   },
   {
+    path: 'cart',
+    loadComponent: () =>
+      import('./cart/cart.component').then((m) => m.CartComponent),
+  },
+  {
     path: '**',
     component: NotFoundComponent,
   },
